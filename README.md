@@ -18,13 +18,15 @@ Software was tested with `ATI AXIA80` and `OnRobot HEX-E V2` and `ATI Net F/T se
 
 ## Installation
 
-Installing dependencies, go in **src** and:
+The following instructions assume that a [ROS2 Workspace](https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html) has been created and  you are in its **src** folder.
+
+To install the package execute the following instructions:
 
 ```Bash
 sudo apt update
 sudo apt dist-upgrade
 rosdep update
-git clone git@github.com:LeoBoticsHub/ros2_net_ft_driver.git
+git clone https://github.com/AleBarte/ros2_net_ft_driver.git
 sudo apt install -y libasio-dev libcurlpp-dev
 cd ..
 rosdep install --ignore-src --from-paths src -y -r --rosdistro $ROS_DISTRO
@@ -39,11 +41,18 @@ source install/local_setup.sh
 
 ## Running
 
-Launch the controller:
+Launch the F/T Sensor as a Standalone (useful for testing):
 
 ```Bash
-ros2 launch net_ft_driver net_ft_broadcaster.launch.py ip_address:=192.168.4.212 sensor_type:=ati rdt_sampling_rate:=500
+ros2 launch net_ft_driver net_ft_broadcaster.launch.py ip_address:=192.168.0.14 sensor_type:=ati rdt_sampling_rate:=500
 ```
+
+Launch the sensor under a namespace:
+
+```Bash
+ros2 launch net_ft_driver net_ft_broadcaster.launch.py ip_address:=192.168.0.14 sensor_type:=ati rdt_sampling_rate:=500 namespace:=sensor
+```
+This is needed to make the sensor work with real robots, otherwise a crash happens.
 
 where:
 
@@ -53,4 +62,10 @@ where:
   the sensor manuals for the frequency range.
 - `use_hardware_biasing`: whether to use built-in sensor biasing.
 
-NOTE: to change `rdt_sampling_rate` the argument in the launch is NOT working. You have to change the `update_rate` in the ros param of the controller manager in the folder `net_ft_driver\config` 
+
+>[!IMPORTANT]
+>IP addresses which can be used are found on the NET FT Boxes. Make sure to use the one matching your current setup.
+
+
+>[!NOTE]
+>To change `rdt_sampling_rate` the argument in the launch is NOT working. You have to change the `update_rate` in the ros param of the controller manager in the folder `net_ft_driver\config` 
