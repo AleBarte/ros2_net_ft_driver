@@ -26,7 +26,7 @@ To install the package execute the following instructions:
 sudo apt update
 sudo apt dist-upgrade
 rosdep update
-git clone https://github.com/AleBarte/ros2_net_ft_driver.git
+git clone https://github.com/MerlinLaboratory/ros2_net_ft_driver.git
 sudo apt install -y libasio-dev libcurlpp-dev
 cd ..
 rosdep install --ignore-src --from-paths src -y -r --rosdistro $ROS_DISTRO
